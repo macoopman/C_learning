@@ -3,17 +3,25 @@
 
 #include <stdio.h>
 
-int power(int base, int exponent);
+int RecursivePower(int base, int exponent);
 
 int main(void){
 
-    printf("%d\n", power(5,8));
+    int base = 0;
+    int power = 0;
+
+    puts("\n\n---- Power Function ----\n");
+    puts("Input the base followed by the power. Seperated by space.");
+    printf("%s","Enter (base power):  ");
+    scanf("%d", &base);
+    scanf("%d", &power);
+    printf("%d^%d = %d\n\n\n\n", base, power, RecursivePower(base,power));
 
 }
 
-int power(int base, int exponent){
+int RecursivePower(int base, int exponent){
     if(exponent == 1){
         return base;
     }
-    return base * power(base, exponent -1 );
+    return base * RecursivePower(base, exponent -1 );
 }
