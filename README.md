@@ -1,5 +1,4 @@
 # C_learning
-This repo is intended to hold projects as I learn the C language. In addition I'm going to be keeping a log of my study.
 
 Books:
   C for Programmers : Dietel
