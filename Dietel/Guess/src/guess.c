@@ -4,6 +4,8 @@
 
 #define MAXGUESS 1000
 
+void successMessage(int guessCount);
+
 
 int main(void){
 
@@ -22,7 +24,7 @@ int main(void){
         printf("Enter guess number %d: ", guessCount);
         scanf("%d", &guess);
         if(guess == random){
-            puts("Excellent! You guessed the number!");
+            successMessage(guessCount);
         }
         else if(guess > random){
             puts("Too High. Try again");
@@ -32,10 +34,23 @@ int main(void){
             ++guessCount;
         }
     } while(guess != random);
-    
 
 
 
 
 
+
+} // end main
+
+
+void successMessage(int guessCount){
+    if(guessCount < 10){
+        puts("Either you know the secrete or you got lucky");
+    }
+    else if(guessCount == 10) {
+        puts("Aha! You know the secret!");
+    }
+    else {
+        puts("Your better than this!");
+    }
 }
