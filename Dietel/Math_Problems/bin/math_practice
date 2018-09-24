@@ -1,0 +1,777 @@
+	.text
+	.cstring
+lC0:
+	.ascii "\12--- Math Practice --\12\0"
+lC1:
+	.ascii "1) Addition\0"
+lC2:
+	.ascii "2) Subtraction\0"
+lC3:
+	.ascii "3) Multiplication\0"
+lC4:
+	.ascii "4) Division\0"
+lC5:
+	.ascii "5) Exit\0"
+lC6:
+	.ascii "Selection: \0"
+lC7:
+	.ascii "\12%s: \0"
+lC8:
+	.ascii "%c\0"
+lC9:
+	.ascii "Addition\0"
+lC10:
+	.ascii "Subtraction\0"
+lC11:
+	.ascii "Multiplication\0"
+lC12:
+	.ascii "Division\0"
+lC13:
+	.ascii "Thanks for playing...\12\12\0"
+	.align 3
+lC14:
+	.ascii "Unknown selection : Try Again \0"
+	.text
+	.globl _main
+_main:
+LFB4:
+	pushq	%rbp
+LCFI0:
+	movq	%rsp, %rbp
+LCFI1:
+	subq	$16, %rsp
+	movl	$0, %edi
+	call	_time
+	movl	%eax, %edi
+	call	_srand
+L10:
+	leaq	lC0(%rip), %rdi
+	call	_puts
+	leaq	lC1(%rip), %rdi
+	call	_puts
+	leaq	lC2(%rip), %rdi
+	call	_puts
+	leaq	lC3(%rip), %rdi
+	call	_puts
+	leaq	lC4(%rip), %rdi
+	call	_puts
+	leaq	lC5(%rip), %rdi
+	call	_puts
+	leaq	lC6(%rip), %rsi
+	leaq	lC7(%rip), %rdi
+	movl	$0, %eax
+	call	_printf
+	leaq	-5(%rbp), %rax
+	movq	%rax, %rsi
+	leaq	lC8(%rip), %rdi
+	movl	$0, %eax
+	call	_scanf
+	movzbl	-5(%rbp), %eax
+	movsbl	%al, %eax
+	subl	$49, %eax
+	cmpl	$4, %eax
+	ja	L2
+	movl	%eax, %eax
+	leaq	0(,%rax,4), %rdx
+	leaq	L4(%rip), %rax
+	movl	(%rdx,%rax), %eax
+	movslq	%eax, %rdx
+	leaq	L4(%rip), %rax
+	addq	%rdx, %rax
+	jmp	*%rax
+	.align 2,0x90
+L4:
+	.long	L3-L4
+	.long	L5-L4
+	.long	L6-L4
+	.long	L7-L4
+	.long	L8-L4
+L3:
+	movl	$0, %edx
+	leaq	lC9(%rip), %rsi
+	leaq	_addition_problem(%rip), %rdi
+	call	_playerScreen
+	jmp	L9
+L5:
+	movl	$0, %edx
+	leaq	lC10(%rip), %rsi
+	leaq	_subtraction_problem(%rip), %rdi
+	call	_playerScreen
+	jmp	L9
+L6:
+	movl	$0, %edx
+	leaq	lC11(%rip), %rsi
+	leaq	_multiplication_problem(%rip), %rdi
+	call	_playerScreen
+	jmp	L9
+L7:
+	movl	$1, %edx
+	leaq	lC12(%rip), %rsi
+	leaq	_division_problem(%rip), %rdi
+	call	_playerScreen
+	jmp	L9
+L8:
+	leaq	lC13(%rip), %rdi
+	call	_puts
+	jmp	L9
+L2:
+	leaq	lC14(%rip), %rdi
+	call	_puts
+L9:
+	movzbl	-5(%rbp), %eax
+	cmpb	$53, %al
+	jne	L10
+	movl	$0, %eax
+	leave
+LCFI2:
+	ret
+LFE4:
+	.cstring
+lC15:
+	.ascii "\12%s Practice\12\0"
+	.align 3
+lC16:
+	.ascii "Enter Number of Practice Questions: \0"
+lC17:
+	.ascii "%d\0"
+lC18:
+	.ascii "\12\12Results:\12\0"
+lC19:
+	.ascii "\11Correct:   %d\12\0"
+lC20:
+	.ascii "\11Incorrect: %d\12\0"
+	.text
+	.globl _playerScreen
+_playerScreen:
+LFB5:
+	pushq	%rbp
+LCFI3:
+	movq	%rsp, %rbp
+LCFI4:
+	pushq	%rbx
+	subq	$72, %rsp
+LCFI5:
+	movq	%rdi, -56(%rbp)
+	movq	%rsi, -64(%rbp)
+	movl	%edx, -68(%rbp)
+	movl	$0, -28(%rbp)
+	movq	-64(%rbp), %rax
+	movq	%rax, %rsi
+	leaq	lC15(%rip), %rdi
+	movl	$0, %eax
+	call	_printf
+L19:
+	leaq	lC16(%rip), %rdi
+	movl	$0, %eax
+	call	_printf
+	leaq	-36(%rbp), %rax
+	movq	%rax, %rsi
+	leaq	lC17(%rip), %rdi
+	movl	$0, %eax
+	call	_scanf
+	jmp	L13
+L18:
+	cmpl	$0, -68(%rbp)
+	je	L14
+	call	_rand
+	movl	%eax, %ecx
+	movl	$954437177, %edx
+	movl	%ecx, %eax
+	imull	%edx
+	sarl	%edx
+	movl	%ecx, %eax
+	sarl	$31, %eax
+	subl	%eax, %edx
+	movl	%edx, %eax
+	sall	$3, %eax
+	addl	%edx, %eax
+	subl	%eax, %ecx
+	movl	%ecx, %edx
+	leal	1(%rdx), %ebx
+	call	_rand
+	movl	%eax, %ecx
+	movl	$1717986919, %edx
+	movl	%ecx, %eax
+	imull	%edx
+	sarl	$2, %edx
+	movl	%ecx, %eax
+	sarl	$31, %eax
+	subl	%eax, %edx
+	movl	%edx, %eax
+	sall	$2, %eax
+	addl	%edx, %eax
+	addl	%eax, %eax
+	subl	%eax, %ecx
+	movl	%ecx, %edx
+	movq	-56(%rbp), %rax
+	movl	%ebx, %esi
+	movl	%edx, %edi
+	call	*%rax
+	movl	%eax, -32(%rbp)
+	jmp	L15
+L14:
+	call	_rand
+	movl	%eax, %ecx
+	movl	$1717986919, %edx
+	movl	%ecx, %eax
+	imull	%edx
+	sarl	$2, %edx
+	movl	%ecx, %eax
+	sarl	$31, %eax
+	movl	%edx, %ebx
+	subl	%eax, %ebx
+	movl	%ebx, %eax
+	sall	$2, %eax
+	addl	%ebx, %eax
+	addl	%eax, %eax
+	movl	%ecx, %ebx
+	subl	%eax, %ebx
+	call	_rand
+	movl	%eax, %ecx
+	movl	$1717986919, %edx
+	movl	%ecx, %eax
+	imull	%edx
+	sarl	$2, %edx
+	movl	%ecx, %eax
+	sarl	$31, %eax
+	subl	%eax, %edx
+	movl	%edx, %eax
+	sall	$2, %eax
+	addl	%edx, %eax
+	addl	%eax, %eax
+	subl	%eax, %ecx
+	movl	%ecx, %edx
+	movq	-56(%rbp), %rax
+	movl	%ebx, %esi
+	movl	%edx, %edi
+	call	*%rax
+	movl	%eax, -32(%rbp)
+L15:
+	cmpl	$1, -32(%rbp)
+	jne	L16
+	addl	$1, -20(%rbp)
+	jmp	L17
+L16:
+	addl	$1, -24(%rbp)
+L17:
+	addl	$1, -28(%rbp)
+L13:
+	movl	-36(%rbp), %eax
+	cmpl	%eax, -28(%rbp)
+	jb	L18
+	movl	-36(%rbp), %eax
+	cmpl	%eax, -28(%rbp)
+	jb	L19
+	leaq	lC18(%rip), %rdi
+	call	_puts
+	movl	-20(%rbp), %eax
+	movl	%eax, %esi
+	leaq	lC19(%rip), %rdi
+	movl	$0, %eax
+	call	_printf
+	movl	-24(%rbp), %eax
+	movl	%eax, %esi
+	leaq	lC20(%rip), %rdi
+	movl	$0, %eax
+	call	_printf
+	nop
+	addq	$72, %rsp
+	popq	%rbx
+	popq	%rbp
+LCFI6:
+	ret
+LFE5:
+	.cstring
+lC21:
+	.ascii "%d + %d = \0"
+lC22:
+	.ascii "Incorrect: Try Again:\0"
+lC23:
+	.ascii "Final Attempt\0"
+	.text
+	.globl _addition_problem
+_addition_problem:
+LFB6:
+	pushq	%rbp
+LCFI7:
+	movq	%rsp, %rbp
+LCFI8:
+	subq	$32, %rsp
+	movl	%edi, -20(%rbp)
+	movl	%esi, -24(%rbp)
+	movl	-20(%rbp), %edx
+	movl	-24(%rbp), %eax
+	addl	%edx, %eax
+	movl	%eax, -8(%rbp)
+	movl	$1, -4(%rbp)
+	movl	-24(%rbp), %edx
+	movl	-20(%rbp), %eax
+	movl	%eax, %esi
+	leaq	lC21(%rip), %rdi
+	movl	$0, %eax
+	call	_printf
+	leaq	-12(%rbp), %rax
+	movq	%rax, %rsi
+	leaq	lC17(%rip), %rdi
+	movl	$0, %eax
+	call	_scanf
+	movl	-12(%rbp), %eax
+	cmpl	%eax, -8(%rbp)
+	jne	L23
+	movl	$1, %eax
+	jmp	L27
+L26:
+	addl	$1, -4(%rbp)
+	leaq	lC22(%rip), %rdi
+	call	_puts
+	cmpl	$3, -4(%rbp)
+	jne	L24
+	leaq	lC23(%rip), %rdi
+	call	_puts
+L24:
+	movl	-24(%rbp), %edx
+	movl	-20(%rbp), %eax
+	movl	%eax, %esi
+	leaq	lC21(%rip), %rdi
+	movl	$0, %eax
+	call	_printf
+	leaq	-12(%rbp), %rax
+	movq	%rax, %rsi
+	leaq	lC17(%rip), %rdi
+	movl	$0, %eax
+	call	_scanf
+	movl	-12(%rbp), %eax
+	cmpl	%eax, -8(%rbp)
+	jne	L23
+	movl	$1, %eax
+	jmp	L27
+L23:
+	cmpl	$2, -4(%rbp)
+	jg	L25
+	movl	-12(%rbp), %eax
+	cmpl	%eax, -8(%rbp)
+	jne	L26
+L25:
+	movl	$0, %eax
+L27:
+	leave
+LCFI9:
+	ret
+LFE6:
+	.cstring
+lC24:
+	.ascii "%d - %d = \0"
+	.text
+	.globl _subtraction_problem
+_subtraction_problem:
+LFB7:
+	pushq	%rbp
+LCFI10:
+	movq	%rsp, %rbp
+LCFI11:
+	subq	$32, %rsp
+	movl	%edi, -20(%rbp)
+	movl	%esi, -24(%rbp)
+	movl	-20(%rbp), %eax
+	subl	-24(%rbp), %eax
+	movl	%eax, -8(%rbp)
+	movl	$1, -4(%rbp)
+	movl	-24(%rbp), %edx
+	movl	-20(%rbp), %eax
+	movl	%eax, %esi
+	leaq	lC24(%rip), %rdi
+	movl	$0, %eax
+	call	_printf
+	leaq	-12(%rbp), %rax
+	movq	%rax, %rsi
+	leaq	lC17(%rip), %rdi
+	movl	$0, %eax
+	call	_scanf
+	movl	-12(%rbp), %eax
+	cmpl	%eax, -8(%rbp)
+	jne	L31
+	movl	$1, %eax
+	jmp	L35
+L34:
+	addl	$1, -4(%rbp)
+	leaq	lC22(%rip), %rdi
+	call	_puts
+	cmpl	$3, -4(%rbp)
+	jne	L32
+	leaq	lC23(%rip), %rdi
+	call	_puts
+L32:
+	movl	-24(%rbp), %edx
+	movl	-20(%rbp), %eax
+	movl	%eax, %esi
+	leaq	lC24(%rip), %rdi
+	movl	$0, %eax
+	call	_printf
+	leaq	-12(%rbp), %rax
+	movq	%rax, %rsi
+	leaq	lC17(%rip), %rdi
+	movl	$0, %eax
+	call	_scanf
+	movl	-12(%rbp), %eax
+	cmpl	%eax, -8(%rbp)
+	jne	L31
+	movl	$1, %eax
+	jmp	L35
+L31:
+	cmpl	$2, -4(%rbp)
+	jg	L33
+	movl	-12(%rbp), %eax
+	cmpl	%eax, -8(%rbp)
+	jne	L34
+L33:
+	movl	$0, %eax
+L35:
+	leave
+LCFI12:
+	ret
+LFE7:
+	.cstring
+lC25:
+	.ascii "%d * %d = \0"
+	.text
+	.globl _multiplication_problem
+_multiplication_problem:
+LFB8:
+	pushq	%rbp
+LCFI13:
+	movq	%rsp, %rbp
+LCFI14:
+	subq	$32, %rsp
+	movl	%edi, -20(%rbp)
+	movl	%esi, -24(%rbp)
+	movl	-20(%rbp), %eax
+	imull	-24(%rbp), %eax
+	movl	%eax, -8(%rbp)
+	movl	$1, -4(%rbp)
+	movl	-24(%rbp), %edx
+	movl	-20(%rbp), %eax
+	movl	%eax, %esi
+	leaq	lC25(%rip), %rdi
+	movl	$0, %eax
+	call	_printf
+	leaq	-12(%rbp), %rax
+	movq	%rax, %rsi
+	leaq	lC17(%rip), %rdi
+	movl	$0, %eax
+	call	_scanf
+	movl	-12(%rbp), %eax
+	cmpl	%eax, -8(%rbp)
+	jne	L39
+	movl	$1, %eax
+	jmp	L43
+L42:
+	addl	$1, -4(%rbp)
+	leaq	lC22(%rip), %rdi
+	call	_puts
+	cmpl	$3, -4(%rbp)
+	jne	L40
+	leaq	lC23(%rip), %rdi
+	call	_puts
+L40:
+	movl	-24(%rbp), %edx
+	movl	-20(%rbp), %eax
+	movl	%eax, %esi
+	leaq	lC25(%rip), %rdi
+	movl	$0, %eax
+	call	_printf
+	leaq	-12(%rbp), %rax
+	movq	%rax, %rsi
+	leaq	lC17(%rip), %rdi
+	movl	$0, %eax
+	call	_scanf
+	movl	-12(%rbp), %eax
+	cmpl	%eax, -8(%rbp)
+	jne	L39
+	movl	$1, %eax
+	jmp	L43
+L39:
+	cmpl	$2, -4(%rbp)
+	jg	L41
+	movl	-12(%rbp), %eax
+	cmpl	%eax, -8(%rbp)
+	jne	L42
+L41:
+	movl	$0, %eax
+L43:
+	leave
+LCFI15:
+	ret
+LFE8:
+	.cstring
+lC26:
+	.ascii "%d / %d = \0"
+	.text
+	.globl _division_problem
+_division_problem:
+LFB9:
+	pushq	%rbp
+LCFI16:
+	movq	%rsp, %rbp
+LCFI17:
+	subq	$32, %rsp
+	movl	%edi, -20(%rbp)
+	movl	%esi, -24(%rbp)
+	movl	-20(%rbp), %eax
+	cltd
+	idivl	-24(%rbp)
+	movl	%eax, -8(%rbp)
+	movl	$1, -4(%rbp)
+	movl	-24(%rbp), %edx
+	movl	-20(%rbp), %eax
+	movl	%eax, %esi
+	leaq	lC26(%rip), %rdi
+	movl	$0, %eax
+	call	_printf
+	leaq	-12(%rbp), %rax
+	movq	%rax, %rsi
+	leaq	lC17(%rip), %rdi
+	movl	$0, %eax
+	call	_scanf
+	movl	-12(%rbp), %eax
+	cmpl	%eax, -8(%rbp)
+	jne	L47
+	movl	$1, %eax
+	jmp	L51
+L50:
+	addl	$1, -4(%rbp)
+	leaq	lC22(%rip), %rdi
+	call	_puts
+	cmpl	$3, -4(%rbp)
+	jne	L48
+	leaq	lC23(%rip), %rdi
+	call	_puts
+L48:
+	movl	-24(%rbp), %edx
+	movl	-20(%rbp), %eax
+	movl	%eax, %esi
+	leaq	lC26(%rip), %rdi
+	movl	$0, %eax
+	call	_printf
+	leaq	-12(%rbp), %rax
+	movq	%rax, %rsi
+	leaq	lC17(%rip), %rdi
+	movl	$0, %eax
+	call	_scanf
+	movl	-12(%rbp), %eax
+	cmpl	%eax, -8(%rbp)
+	jne	L47
+	movl	$1, %eax
+	jmp	L51
+L47:
+	cmpl	$2, -4(%rbp)
+	jg	L49
+	movl	-12(%rbp), %eax
+	cmpl	%eax, -8(%rbp)
+	jne	L50
+L49:
+	movl	$0, %eax
+L51:
+	leave
+LCFI18:
+	ret
+LFE9:
+	.section __TEXT,__eh_frame,coalesced,no_toc+strip_static_syms+live_support
+EH_frame1:
+	.set L$set$0,LECIE1-LSCIE1
+	.long L$set$0
+LSCIE1:
+	.long	0
+	.byte	0x1
+	.ascii "zR\0"
+	.byte	0x1
+	.byte	0x78
+	.byte	0x10
+	.byte	0x1
+	.byte	0x10
+	.byte	0xc
+	.byte	0x7
+	.byte	0x8
+	.byte	0x90
+	.byte	0x1
+	.align 3
+LECIE1:
+LSFDE1:
+	.set L$set$1,LEFDE1-LASFDE1
+	.long L$set$1
+LASFDE1:
+	.long	LASFDE1-EH_frame1
+	.quad	LFB4-.
+	.set L$set$2,LFE4-LFB4
+	.quad L$set$2
+	.byte	0
+	.byte	0x4
+	.set L$set$3,LCFI0-LFB4
+	.long L$set$3
+	.byte	0xe
+	.byte	0x10
+	.byte	0x86
+	.byte	0x2
+	.byte	0x4
+	.set L$set$4,LCFI1-LCFI0
+	.long L$set$4
+	.byte	0xd
+	.byte	0x6
+	.byte	0x4
+	.set L$set$5,LCFI2-LCFI1
+	.long L$set$5
+	.byte	0xc
+	.byte	0x7
+	.byte	0x8
+	.align 3
+LEFDE1:
+LSFDE3:
+	.set L$set$6,LEFDE3-LASFDE3
+	.long L$set$6
+LASFDE3:
+	.long	LASFDE3-EH_frame1
+	.quad	LFB5-.
+	.set L$set$7,LFE5-LFB5
+	.quad L$set$7
+	.byte	0
+	.byte	0x4
+	.set L$set$8,LCFI3-LFB5
+	.long L$set$8
+	.byte	0xe
+	.byte	0x10
+	.byte	0x86
+	.byte	0x2
+	.byte	0x4
+	.set L$set$9,LCFI4-LCFI3
+	.long L$set$9
+	.byte	0xd
+	.byte	0x6
+	.byte	0x4
+	.set L$set$10,LCFI5-LCFI4
+	.long L$set$10
+	.byte	0x83
+	.byte	0x3
+	.byte	0x4
+	.set L$set$11,LCFI6-LCFI5
+	.long L$set$11
+	.byte	0xc
+	.byte	0x7
+	.byte	0x8
+	.align 3
+LEFDE3:
+LSFDE5:
+	.set L$set$12,LEFDE5-LASFDE5
+	.long L$set$12
+LASFDE5:
+	.long	LASFDE5-EH_frame1
+	.quad	LFB6-.
+	.set L$set$13,LFE6-LFB6
+	.quad L$set$13
+	.byte	0
+	.byte	0x4
+	.set L$set$14,LCFI7-LFB6
+	.long L$set$14
+	.byte	0xe
+	.byte	0x10
+	.byte	0x86
+	.byte	0x2
+	.byte	0x4
+	.set L$set$15,LCFI8-LCFI7
+	.long L$set$15
+	.byte	0xd
+	.byte	0x6
+	.byte	0x4
+	.set L$set$16,LCFI9-LCFI8
+	.long L$set$16
+	.byte	0xc
+	.byte	0x7
+	.byte	0x8
+	.align 3
+LEFDE5:
+LSFDE7:
+	.set L$set$17,LEFDE7-LASFDE7
+	.long L$set$17
+LASFDE7:
+	.long	LASFDE7-EH_frame1
+	.quad	LFB7-.
+	.set L$set$18,LFE7-LFB7
+	.quad L$set$18
+	.byte	0
+	.byte	0x4
+	.set L$set$19,LCFI10-LFB7
+	.long L$set$19
+	.byte	0xe
+	.byte	0x10
+	.byte	0x86
+	.byte	0x2
+	.byte	0x4
+	.set L$set$20,LCFI11-LCFI10
+	.long L$set$20
+	.byte	0xd
+	.byte	0x6
+	.byte	0x4
+	.set L$set$21,LCFI12-LCFI11
+	.long L$set$21
+	.byte	0xc
+	.byte	0x7
+	.byte	0x8
+	.align 3
+LEFDE7:
+LSFDE9:
+	.set L$set$22,LEFDE9-LASFDE9
+	.long L$set$22
+LASFDE9:
+	.long	LASFDE9-EH_frame1
+	.quad	LFB8-.
+	.set L$set$23,LFE8-LFB8
+	.quad L$set$23
+	.byte	0
+	.byte	0x4
+	.set L$set$24,LCFI13-LFB8
+	.long L$set$24
+	.byte	0xe
+	.byte	0x10
+	.byte	0x86
+	.byte	0x2
+	.byte	0x4
+	.set L$set$25,LCFI14-LCFI13
+	.long L$set$25
+	.byte	0xd
+	.byte	0x6
+	.byte	0x4
+	.set L$set$26,LCFI15-LCFI14
+	.long L$set$26
+	.byte	0xc
+	.byte	0x7
+	.byte	0x8
+	.align 3
+LEFDE9:
+LSFDE11:
+	.set L$set$27,LEFDE11-LASFDE11
+	.long L$set$27
+LASFDE11:
+	.long	LASFDE11-EH_frame1
+	.quad	LFB9-.
+	.set L$set$28,LFE9-LFB9
+	.quad L$set$28
+	.byte	0
+	.byte	0x4
+	.set L$set$29,LCFI16-LFB9
+	.long L$set$29
+	.byte	0xe
+	.byte	0x10
+	.byte	0x86
+	.byte	0x2
+	.byte	0x4
+	.set L$set$30,LCFI17-LCFI16
+	.long L$set$30
+	.byte	0xd
+	.byte	0x6
+	.byte	0x4
+	.set L$set$31,LCFI18-LCFI17
+	.long L$set$31
+	.byte	0xc
+	.byte	0x7
+	.byte	0x8
+	.align 3
+LEFDE11:
+	.subsections_via_symbols
