@@ -11,6 +11,8 @@ int addition_problem(int a, int b);
 int subtraction_problem(int a, int b);
 int multiplication_problem(int a, int b);
 int division_problem(int a, int b);
+void correctAnswer();
+void incorrectAnswer();
 
 //todo: refactor to pass a operations fuction into a generic exersice function
 //        this should reduce the size of the program
@@ -108,17 +110,21 @@ int addition_problem(int a, int b){
     scanf("%d", &userInput);
 
     if(solution == userInput){
+        correctAnswer();
+        tries = 1;
         return 1;
     }
 
     while((tries < 3) && (userInput != solution) ){
         ++tries;
-        puts("Incorrect: Try Again:");
+        incorrectAnswer();
         if(tries == 3) puts("Final Attempt");
         printf("%d + %d = ", a, b);
         scanf("%d", &userInput);
 
         if(solution == userInput){
+            correctAnswer();
+            tries = 1;
             return 1;
         }
     }
@@ -134,17 +140,21 @@ int subtraction_problem(int a, int b){
     scanf("%d", &userInput);
 
     if(solution == userInput){
+        correctAnswer();
+        tries = 1;
         return 1;
     }
 
     while((tries < 3) && (userInput != solution) ){
         ++tries;
-        puts("Incorrect: Try Again:");
+        incorrectAnswer();
         if(tries == 3) puts("Final Attempt");
         printf("%d - %d = ", a, b);
         scanf("%d", &userInput);
 
         if(solution == userInput){
+            correctAnswer();
+            tries = 1;
             return 1;
         }
     }
@@ -159,17 +169,21 @@ int multiplication_problem(int a, int b){
     scanf("%d", &userInput);
 
     if(solution == userInput){
+        correctAnswer();
+        tries = 1;
         return 1;
     }
 
     while((tries < 3) && (userInput != solution) ){
         ++tries;
-        puts("Incorrect: Try Again:");
+        incorrectAnswer();
         if(tries == 3) puts("Final Attempt");
         printf("%d * %d = ", a, b);
         scanf("%d", &userInput);
 
         if(solution == userInput){
+            correctAnswer();
+            tries = 1;
             return 1;
         }
     }
@@ -184,19 +198,65 @@ int division_problem(int a, int b){
     scanf("%d", &userInput);
 
     if(solution == userInput){
+        correctAnswer();
+        tries = 1;
         return 1;
     }
 
     while((tries < 3) && (userInput != solution) ){
         ++tries;
-        puts("Incorrect: Try Again:");
+        incorrectAnswer();
         if(tries == 3) puts("Final Attempt");
         printf("%d / %d = ", a, b);
         scanf("%d", &userInput);
 
         if(solution == userInput){
+            correctAnswer();
+            tries = 1;
             return 1;
         }
     }
     return 0;
+}
+
+void correctAnswer(){
+    int random = rand() % 4 + 1;
+    switch (random) {
+        case 1:
+            puts("Very good!");
+            break;
+
+        case 2:
+            puts("Excellent!");
+            break;
+
+        case 3:
+            puts("Nice Work!");
+            break;
+
+        case 4:
+            puts("Keep up the good work!");
+            break;
+    }
+}
+void incorrectAnswer(){
+    int random = rand() % 4 + 1;
+    switch (random) {
+        case 1:
+            puts("No. Please try again.");
+            break;
+
+        case 2:
+            puts("Wrong. Try once more.");
+            break;
+
+        case 3:
+            puts("Don't give up!");
+            break;
+
+        case 4:
+            puts("No. Keep trying.");
+            break;
+    }
+
 }
