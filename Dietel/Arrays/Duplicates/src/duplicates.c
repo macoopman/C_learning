@@ -5,7 +5,7 @@
 
 
 #include <stdio.h>
-#define SIZE 5
+#define SIZE 20
 
 int valid(int a[], int size, int input);
 void printArray(int a[], int size);
@@ -16,21 +16,30 @@ int main(void){
     int inputArrayCount = 0;
     int inputCount = 0;
     int userInput = 0;
+    char c;
 
-
-
+    puts("\n\n");
 
     do{
-        printf("\n\nEnter Number: ");
+        printf("Enter Number (b/t 10 - 100): ");
         scanf("%d", &userInput);
-        ++inputCount;
 
-        if(valid(inputArray, SIZE, userInput)){
-            inputArray[inputArrayCount] = userInput;
-            ++inputArrayCount;
+
+
+        if(userInput >= 10 && userInput <= 100){
+            ++inputCount;
+            if(valid(inputArray, SIZE, userInput)){
+                inputArray[inputArrayCount] = userInput;
+                ++inputArrayCount;
+            }
+        } else {
+            puts("Invalid Entry: Must be b/t in range 10-100");
         }
+
+
     } while(inputCount <= SIZE);
 
+    puts("\nUnique Integers: ");
     printArray(inputArray, inputArrayCount);
 
 
