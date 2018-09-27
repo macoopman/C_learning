@@ -11,7 +11,7 @@
 
 void printSales(double a[][PRODUCTS], int size);
 void createSlip(double a[][PRODUCTS], int employee_number, int product_number, int value);
-void autoDataFill(double a[SALESPERSON][PRODUCTS], int min, int max);
+void autoDataFill(double a[SALESPERSON][PRODUCTS], int min, int max, int perDay, int days);
 
 
 int main(void){
@@ -19,7 +19,7 @@ int main(void){
 
     double sales[SALESPERSON][PRODUCTS] = {0};
 
-    autoDataFill(sales, 1, 100);
+    autoDataFill(sales, 1, 100, 5, 30);
 
     printSales(sales, SALESPERSON);
 
@@ -50,10 +50,18 @@ void printSales(double a[][PRODUCTS], int size){
     }
 }
 
-void autoDataFill(double a[SALESPERSON][PRODUCTS], int min, int max){
-    for(int i = 0; i < SALESPERSON ; ++i){
-        for(int j = 0; j < PRODUCTS; ++j){
-            a[i][j] = (double)(rand() % max + min);
+void autoDataFill(double a[SALESPERSON][PRODUCTS], int min, int max, int perDay, int days){
+
+    for(int d = 0; d < days; ++d){
+        for(int pDay = 0; pDay < perDay; ++pDay){
+            for(int i = 0; i < SALESPERSON ; ++i){
+                for(int j = 0; j < PRODUCTS; ++j){
+                    a[i][j] += (double)(rand() % max + min);
+                }
+            }
         }
     }
+
+
+
 }
