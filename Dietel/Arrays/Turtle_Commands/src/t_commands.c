@@ -13,26 +13,33 @@
     #define GRID_HEIGHT 50
     #define GRID_WIDTH 50
 
-    char commands();
+    char commandsDisplay();
+    void printOptions();
     void printGrid(int grid[][GRID_WIDTH], int height, int width);
 
     int main(void){
 
         int grid[GRID_HEIGHT][GRID_WIDTH] = {0};
-        commands();
+        int position_X = 0;
+        int position_Y = 0;
 
 
+        //Inital Display
+        puts("\n\n--- Turtle Commands ---\n\n");
+        printGrid(grid, GRID_HEIGHT, GRID_WIDTH);
+        puts("");
+        commandsDisplay();
+
+        // todo: functionality of moving and updating values
     }
 
-    char commands(){
+    char commandsDisplay(){
         int validInput(char array[], int size, char input);
         char userInput;
         char valid[7] = {'1', '2', '3', '4', '5', '6', '9'};
 
         do{
-            printf("%-10s\t%-10s\t%-30s\n", "1) Pen Up", "3) Turn Left", "5,X) Move Forward \"X\" Spaces");
-            printf("%-10s\t%-10s\t%--30s\n", "2) Pen Down", "4) Turn Right", "9) Quit");
-            printf("%s", "Enter: ");
+            printOptions();
             scanf("%c", &userInput);
             while(!validInput(valid, 7, userInput )){
                 printf("Invalid - Enter: ");
@@ -50,6 +57,12 @@
                 }
                 puts("");
             }
+    }
+
+    void printOptions(){
+        printf("%-10s\t%-10s\t%-30s\n", "1) Pen Up", "3) Turn Left", "5,X) Move Forward \"X\" Spaces");
+        printf("%-10s\t%-10s\t%--30s\n", "2) Pen Down", "4) Turn Right", "9) Quit");
+        printf("%s", "Enter: ");
     }
 
     int validInput(char array[], int size, char input){
