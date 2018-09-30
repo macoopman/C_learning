@@ -6,6 +6,7 @@
     // 4 - turn left
     // 5,X - move forward X spaces
     // 6 - print screen
+    // 7 - show commands
     // 9 - end of data (sentinel)
 
 
@@ -17,7 +18,9 @@
     void printOptions();
     void printGrid(int grid[][GRID_WIDTH], int height, int width);
     void setPin(int grid[GRID_HEIGHT][GRID_WIDTH], int x, int y, int pen);
-    void moveForward(int grid[GRID_HEIGHT][GRID_WIDTH], int spaces, int direction, int x, int y);
+    void moveForward(int grid[GRID_HEIGHT][GRID_WIDTH], int spaces, int direction, int* x, int* y);
+    void turnRight(int *direction);
+    void turnLeft(int *direction);
 
     int main(void){
 
@@ -37,8 +40,9 @@
         printOptions();
         selection = commandSelection();
 
-
         // todo: functionality of moving and updating values
+        // todo: I would like a unique character to represent the current location. Maybe the character
+        //       represents the current direction i.e. "R" -> right
         do{
             int moves = 0;
             switch (selection) {
@@ -50,81 +54,61 @@
                     setPin(grid, position_X, position_Y, pinIsUp);
                     break;
 
-                case '5':
+                case '3':
+                    turnRight(&direction);
+                    break;
 
+                case '4':
+                    turnLeft(&direction);
+                    break;
+
+                case '5':
                     scanf(" %d", &moves);
-                    moveForward(grid, moves, direction, position_X, position_Y);
+                    moveForward(grid, moves, direction, &position_X, &position_Y);
                     break;
 
                 case '6':
                     printGrid(grid, GRID_HEIGHT, GRID_WIDTH);
                     break;
 
+                case '7':
+                    printOptions();
+                    break;
+
                 default:
-                    puts("Unknow command");
+                    puts("Unknown command");
+                    break;
             }
             printf("%s", "Enter: ");
             selection = commandSelection();
-
+            puts("");
         } while(selection != '9');
 
 
 
     }
 
-    // todo: figure out rotating and general direction. then moving forward should be easy
-    // error check for bounds
 
+    // Display and Input
     char commandSelection(){
         int validInput(char array[], int size, char input);
         char userInput;
-        char valid[7] = {'1', '2', '3', '4', '5', '6', '9'};
+        char valid[8] = {'1', '2', '3', '4', '5', '6', '7', '9'};
         int isValid;
 
-
             scanf(" %c", &userInput);
-            isValid = validInput(valid, 7, userInput);
+            isValid = validInput(valid, 8, userInput);
             while(isValid != 1) {
                 printf("%s","Invalid - Enter: ");
                 scanf("%c", &userInput);
                 isValid = validInput(valid, 7, userInput);
             }
-
         return userInput;
     }
 
-
-    void printGrid(int grid[][GRID_WIDTH], int height, int width){
-            for(int i = 0; i < width; ++i){
-                for(int j = 0; j < height; ++j){
-                    printf("%2d", grid[i][j]);
-                }
-                puts("");
-            }
-    }
-
-
-    // Drawing Functions
-
-    void moveForward(int grid[GRID_HEIGHT][GRID_WIDTH], int spaces, int direction, int x, int y){
-        for(int i = 0; i < spaces; ++i){
-            grid[x][y + i] = 1;
-        }
-    }
-
-    void setPin(int grid[GRID_HEIGHT][GRID_WIDTH], int x, int y, int pin){
-        if(pin == 1){
-            grid[y][x] = 0;
-        } else {
-            grid[y][x] = 1;
-        }
-    }
-
-
-
     void printOptions(){
-        printf("%-10s\t%-10s\t%-30s%-10s\n", "1) Pen Up", "3) Turn Left", "5,X) Move Forward \"X\" Spaces","9) Quit");
-        printf("%-10s\t%-10s\t%--30s\n", "2) Pen Down", "4) Turn Right", "6) Print Screen");
+        printf("%-10s\t%-10s\t%-30s%-15s\n", "1) Pen Up",   "3) Turn Right", "5 X) Move Forward \"X\" Spaces","7) Show Commands");
+        printf("%-10s\t%-10s\t%--30s%-10s\n", "2) Pen Down", "4) Turn Left",  "6) Print Screen", "9) Quit");
         printf("%s", "Enter: ");
     }
 
@@ -135,4 +119,78 @@
             }
         }
         return 0;
+    }
+
+
+
+
+    // Drawing Functions
+
+    //todo: boundry check needed
+    //todo: add parameter to check if pin is down. if up then we are just moving position
+    void moveForward(int grid[GRID_HEIGHT][GRID_WIDTH], int spaces, int direction, int* x, int* y){
+        int i;
+        switch(direction){
+            case 1: // Left
+                for(i = 0; i < spaces; ++i){
+                    grid[*x][*y - i] = 1;
+                }
+                (*y) -= i;
+                break;
+            case 2: // Up
+                for(i = 0; i < spaces; ++i){
+                    grid[(*x) - i][*y] = 1;
+                }
+                (*x) += i;
+                break;
+            case 3: // Right
+                for(i = 0; i < spaces; ++i){
+                    grid[*x][(*y) + i] = 1;
+                }
+                (*y) += i;
+                break;
+            case 4: // Down
+                for(i = 0; i < spaces; ++i){
+                    grid[(*x) + i][*y] = 1;
+                }
+                (*x) += i;
+                break;
+            default:
+                puts("ERROR: Invalid Direction");
+
+
+        }
+
+    }
+
+    void setPin(int grid[GRID_HEIGHT][GRID_WIDTH], int x, int y, int pin){
+        if(pin == 1){
+            grid[y][x] = 0;
+        } else {
+            grid[y][x] = 1;
+        }
+    }
+
+    void printGrid(int grid[][GRID_WIDTH], int height, int width){
+            for(int i = 0; i < width; ++i){
+                for(int j = 0; j < height; ++j){
+                    printf("%2d", grid[i][j]);
+                }
+                puts("");
+            }
+    }
+
+    void turnRight(int *direction){
+        if(*direction != 4){
+            ++(*direction);
+        } else {
+            *direction = 1;
+        }
+    }
+    void turnLeft(int *direction){
+        if(*direction != 1){
+            --(*direction);
+        } else {
+            *(direction) = 4;
+        }
     }
