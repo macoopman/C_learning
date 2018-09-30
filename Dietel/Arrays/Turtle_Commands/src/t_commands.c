@@ -16,11 +16,14 @@
 
     char commandSelection();
     void printOptions();
-    void printGrid(int grid[][GRID_WIDTH], int height, int width);
+    void printGrid(int grid[][GRID_WIDTH], int height, int width, int x, int y, int direction, int pen);
     void setPin(int grid[GRID_HEIGHT][GRID_WIDTH], int x, int y, int pen);
-    void moveForward(int grid[GRID_HEIGHT][GRID_WIDTH], int spaces, int direction, int* x, int* y);
+    void moveForward(int grid[GRID_HEIGHT][GRID_WIDTH], int spaces, int direction, int* x, int* y, int pin);
     void turnRight(int *direction);
     void turnLeft(int *direction);
+
+
+    // todo: pen function not working properyly. Need to rething this.
 
     int main(void){
 
@@ -28,14 +31,14 @@
         int position_X = 0;
         int position_Y = 0;
         int direction = 3;   //left = 1, up = 2, right = 3, down = 4
-        int pinIsUp = 0;
+        int pinPosition = 0;
         char selection;
 
 
 
         //Inital Display
         puts("\n\n--- Turtle Commands ---\n\n");
-        printGrid(grid, GRID_HEIGHT, GRID_WIDTH);
+        printGrid(grid, GRID_HEIGHT, GRID_WIDTH, position_X, position_Y, direction,pinPosition);
         puts("");
         printOptions();
         selection = commandSelection();
@@ -47,11 +50,11 @@
             int moves = 0;
             switch (selection) {
                 case '1':
-                    setPin(grid, position_X, position_Y, pinIsUp);
+                    setPin(grid, position_X, position_Y, pinPosition);
                     printf("%d\n", grid[position_X][position_Y]);
                     break;
                 case '2':
-                    setPin(grid, position_X, position_Y, pinIsUp);
+                    setPin(grid, position_X, position_Y, pinPosition);
                     break;
 
                 case '3':
@@ -64,11 +67,11 @@
 
                 case '5':
                     scanf(" %d", &moves);
-                    moveForward(grid, moves, direction, &position_X, &position_Y);
+                    moveForward(grid, moves, direction, &position_X, &position_Y, pinPosition);
                     break;
 
                 case '6':
-                    printGrid(grid, GRID_HEIGHT, GRID_WIDTH);
+                    printGrid(grid, GRID_HEIGHT, GRID_WIDTH, position_X, position_Y, direction,pinPosition);
                     break;
 
                 case '7':
@@ -126,34 +129,58 @@
 
     // Drawing Functions
 
-    //todo: boundry check needed
+
     //todo: add parameter to check if pin is down. if up then we are just moving position
-    void moveForward(int grid[GRID_HEIGHT][GRID_WIDTH], int spaces, int direction, int* x, int* y){
+    void moveForward(int grid[GRID_HEIGHT][GRID_WIDTH], int spaces, int direction, int* row, int* col, int pin){
         int i;
+        int write = 0;
+        if(pin == 1) {
+            write = 1;
+        }
         switch(direction){
             case 1: // Left
-                for(i = 0; i < spaces; ++i){
-                    grid[*x][*y - i] = 1;
+                if((*col - spaces) <= 0){
+                    puts("Error: Out of Bounds. To many spaces.");
+                    break;
                 }
-                (*y) -= i;
+
+                for(i = 0; i < spaces; ++i){
+                    grid[*row][(*col) - i] = write;
+                }
+                (*col) -= i;
                 break;
             case 2: // Up
-                for(i = 0; i < spaces; ++i){
-                    grid[(*x) - i][*y] = 1;
+                if(*row - spaces <= 0){
+                    puts("Error: Out of Bounds. To many spaces.");
+                    break;
                 }
-                (*x) += i;
+
+                for(i = 0; i < spaces; ++i){
+                    grid[(*row) - i][*col] = write;
+                }
+                (*row) += i;
                 break;
             case 3: // Right
-                for(i = 0; i < spaces; ++i){
-                    grid[*x][(*y) + i] = 1;
+                if((*col + spaces) > GRID_WIDTH){
+                    puts("Error: Out of Bounds. To many spaces.");
+                    break;
                 }
-                (*y) += i;
+
+                for(i = 0; i < spaces; ++i){
+                    grid[*row][(*col) + i] = write;
+                }
+                (*col) += i;
                 break;
             case 4: // Down
-                for(i = 0; i < spaces; ++i){
-                    grid[(*x) + i][*y] = 1;
+                if(*row + spaces > GRID_HEIGHT){
+                    puts("Error: Out of Bounds. To many spaces.");
+                    break;
                 }
-                (*x) += i;
+
+                for(i = 0; i < spaces; ++i){
+                    grid[(*row) + i][*col] = write;
+                }
+                (*row) += i;
                 break;
             default:
                 puts("ERROR: Invalid Direction");
@@ -162,7 +189,7 @@
         }
 
     }
-
+    // think i need to just update this to set it 1 or 0 and let the draw function handle what is changed
     void setPin(int grid[GRID_HEIGHT][GRID_WIDTH], int x, int y, int pin){
         if(pin == 1){
             grid[y][x] = 0;
@@ -171,13 +198,14 @@
         }
     }
 
-    void printGrid(int grid[][GRID_WIDTH], int height, int width){
+    void printGrid(int grid[][GRID_WIDTH], int height, int width, int x, int y, int direction, int pen){
             for(int i = 0; i < width; ++i){
                 for(int j = 0; j < height; ++j){
                     printf("%2d", grid[i][j]);
                 }
                 puts("");
             }
+            printf("Location: (%d,%d) - Direction: %5d - Pen: %d \n", x, y, direction, pen);
     }
 
     void turnRight(int *direction){
