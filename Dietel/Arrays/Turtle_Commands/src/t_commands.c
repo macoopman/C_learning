@@ -63,6 +63,7 @@
     }
 
     // todo: figure out rotating and general direction. then moving forward should be easy
+    // error check for bounds
 
     char commandSelection(){
         int validInput(char array[], int size, char input);
@@ -74,7 +75,7 @@
             scanf(" %c", &userInput);
             isValid = validInput(valid, 7, userInput);
             while(isValid != 1) {
-                printf("Invalid - Enter: ");
+                printf("%s","Invalid - Enter: ");
                 scanf("%c", &userInput);
                 isValid = validInput(valid, 7, userInput);
             }
