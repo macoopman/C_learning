@@ -13,7 +13,7 @@
     #define GRID_HEIGHT 50
     #define GRID_WIDTH 50
 
-    char commandsDisplay();
+    char commandSelection();
     void printOptions();
     void printGrid(int grid[][GRID_WIDTH], int height, int width);
     void setPin(int grid[GRID_HEIGHT][GRID_WIDTH], int x, int y, int pen);
@@ -31,12 +31,9 @@
         puts("\n\n--- Turtle Commands ---\n\n");
         printGrid(grid, GRID_HEIGHT, GRID_WIDTH);
         puts("");
-        selection = commandsDisplay();
-        // printf("S1: %c\n", selection);
-        // selection = commandsDisplay();
-        // printf("S2: %c\n", selection);
-        // selection = commandsDisplay();
-        // printf("S3: %c\n", selection);
+        printOptions();
+        selection = commandSelection();
+
 
         // todo: functionality of moving and updating values
         do{
@@ -56,7 +53,8 @@
                 default:
                     puts("Unknow command");
             }
-            selection = commandsDisplay();
+            printf("%s", "Enter: ");
+            selection = commandSelection();
 
         } while(selection != '9');
 
@@ -64,14 +62,15 @@
 
     }
 
-    char commandsDisplay(){
+    // todo: figure out rotating and general direction. then moving forward should be easy
+
+    char commandSelection(){
         int validInput(char array[], int size, char input);
         char userInput;
         char valid[7] = {'1', '2', '3', '4', '5', '6', '9'};
         int isValid;
 
 
-            printOptions();
             scanf(" %c", &userInput);
             isValid = validInput(valid, 7, userInput);
             while(isValid != 1) {
