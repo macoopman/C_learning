@@ -16,37 +16,71 @@
     char commandsDisplay();
     void printOptions();
     void printGrid(int grid[][GRID_WIDTH], int height, int width);
+    void setPin(int grid[GRID_HEIGHT][GRID_WIDTH], int x, int y, int pen);
 
     int main(void){
 
         int grid[GRID_HEIGHT][GRID_WIDTH] = {0};
         int position_X = 0;
         int position_Y = 0;
+        int pinIsUp = 0;
+        char selection;
 
 
         //Inital Display
         puts("\n\n--- Turtle Commands ---\n\n");
         printGrid(grid, GRID_HEIGHT, GRID_WIDTH);
         puts("");
-        commandsDisplay();
+        selection = commandsDisplay();
+        // printf("S1: %c\n", selection);
+        // selection = commandsDisplay();
+        // printf("S2: %c\n", selection);
+        // selection = commandsDisplay();
+        // printf("S3: %c\n", selection);
 
         // todo: functionality of moving and updating values
+        do{
+            switch (selection) {
+                case '1':
+                    setPin(grid, position_X, position_Y, pinIsUp);
+                    printf("%d\n", grid[position_X][position_Y]);
+                    break;
+                case '2':
+                    setPin(grid, position_X, position_Y, pinIsUp);
+                    break;
+
+                case '6':
+                    printGrid(grid, GRID_HEIGHT, GRID_WIDTH);
+                    break;
+
+                default:
+                    puts("Unknow command");
+            }
+            selection = commandsDisplay();
+
+        } while(selection != '9');
+
+
+
     }
 
     char commandsDisplay(){
         int validInput(char array[], int size, char input);
         char userInput;
         char valid[7] = {'1', '2', '3', '4', '5', '6', '9'};
+        int isValid;
 
-        do{
+
             printOptions();
-            scanf("%c", &userInput);
-            while(!validInput(valid, 7, userInput )){
+            scanf(" %c", &userInput);
+            isValid = validInput(valid, 7, userInput);
+            while(isValid != 1) {
                 printf("Invalid - Enter: ");
-                scanf(" %c", &userInput);
+                scanf("%c", &userInput);
+                isValid = validInput(valid, 7, userInput);
             }
 
-        } while(0);
+        return userInput;
     }
 
 
@@ -59,9 +93,19 @@
             }
     }
 
+    void setPin(int grid[GRID_HEIGHT][GRID_WIDTH], int x, int y, int pin){
+        if(pin == 1){
+            grid[y][x] = 0;
+        } else {
+            grid[y][x] = 1;
+        }
+    }
+
+
+
     void printOptions(){
-        printf("%-10s\t%-10s\t%-30s\n", "1) Pen Up", "3) Turn Left", "5,X) Move Forward \"X\" Spaces");
-        printf("%-10s\t%-10s\t%--30s\n", "2) Pen Down", "4) Turn Right", "9) Quit");
+        printf("%-10s\t%-10s\t%-30s%-10s\n", "1) Pen Up", "3) Turn Left", "5,X) Move Forward \"X\" Spaces","9) Quit");
+        printf("%-10s\t%-10s\t%--30s\n", "2) Pen Down", "4) Turn Right", "6) Print Screen");
         printf("%s", "Enter: ");
     }
 
