@@ -17,14 +17,17 @@
     void printOptions();
     void printGrid(int grid[][GRID_WIDTH], int height, int width);
     void setPin(int grid[GRID_HEIGHT][GRID_WIDTH], int x, int y, int pen);
+    void moveForward(int grid[GRID_HEIGHT][GRID_WIDTH], int spaces, int direction, int x, int y);
 
     int main(void){
 
         int grid[GRID_HEIGHT][GRID_WIDTH] = {0};
         int position_X = 0;
         int position_Y = 0;
+        int direction = 3;   //left = 1, up = 2, right = 3, down = 4
         int pinIsUp = 0;
         char selection;
+
 
 
         //Inital Display
@@ -37,6 +40,7 @@
 
         // todo: functionality of moving and updating values
         do{
+            int moves = 0;
             switch (selection) {
                 case '1':
                     setPin(grid, position_X, position_Y, pinIsUp);
@@ -44,6 +48,12 @@
                     break;
                 case '2':
                     setPin(grid, position_X, position_Y, pinIsUp);
+                    break;
+
+                case '5':
+
+                    scanf(" %d", &moves);
+                    moveForward(grid, moves, direction, position_X, position_Y);
                     break;
 
                 case '6':
@@ -91,6 +101,15 @@
                 }
                 puts("");
             }
+    }
+
+
+    // Drawing Functions
+
+    void moveForward(int grid[GRID_HEIGHT][GRID_WIDTH], int spaces, int direction, int x, int y){
+        for(int i = 0; i < spaces; ++i){
+            grid[x][y + i] = 1;
+        }
     }
 
     void setPin(int grid[GRID_HEIGHT][GRID_WIDTH], int x, int y, int pin){
