@@ -14,7 +14,7 @@ int main(void){
     char class[3][15] = {"", "First Class", "Economy"};
     int seatCount = 0;
     int userInput;
-    int seatCheck;
+
 
     puts("\n---- Airline Reservation System ----\n");
     do{
@@ -26,6 +26,7 @@ int main(void){
         scanf("%d", &userInput);
 
         // inital seat check
+        int seatCheck;
         seatCheck = checkAvailable(seats, MAX_SEATS, userInput);
 
         // if seat is avaliable - book it and print reservation
