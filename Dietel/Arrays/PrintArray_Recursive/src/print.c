@@ -6,10 +6,8 @@
 
 void print(int a[], int size){
     if(size != 0){
-
         print(a, size - 1);
         printf("%d ", a[size-1]);
-
     }
 }
 

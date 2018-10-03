@@ -8,8 +8,24 @@
 #define MAX 100
 
 
-int isPalidrome(char* str, int beg, int end){
+int isPalidrome(char* str, int beg, int end);
 
+int main(void){
+    char userString[MAX];
+
+    printf("\n\nEnter String: ");
+    fgets(userString, MAX, stdin);
+
+    userString[strcspn(userString, "\n")] = '\0';
+    printf("%s -> %s a palidrome\n", userString, (isPalidrome(userString, 0, strlen(userString) - 1)) ? "Is" : "Is NOT");
+
+
+}
+
+
+
+
+int isPalidrome(char* str, int beg, int end){
     // Performs check for characters that are not alphanumeric
     // if not then increment/decerment until both are alpha
     while(!isalpha(str[beg]) || !isalpha(str[end])){
@@ -33,17 +49,5 @@ int isPalidrome(char* str, int beg, int end){
     else {
         return 0;
     }
-
-}
-
-int main(void){
-    char userString[MAX];
-
-    printf("\n\nEnter String: ");
-    fgets(userString, MAX, stdin);
-
-    userString[strcspn(userString, "\n")] = '\0';
-    printf("%s -> %s a palidrome\n", userString, (isPalidrome(userString, 0, strlen(userString) - 1)) ? "Is" : "Is NOT");
-
 
 }
