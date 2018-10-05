@@ -12,7 +12,11 @@
 //
 
 
+//todo: finish implmentation of remaining functions
+
+
 #include <stdio.h>
+#include <limits.h>
 #define STUDENTS 3
 #define EXAMS 4
 
@@ -26,7 +30,7 @@ void printArray(const int grades[][EXAMS], int pupils, int tests);
 int main(void){
 
     void (*processGrades[4])(const int grades[][EXAMS], int pupils, int tests) =
-     {minimum, maximum, average, printArray};
+     {printArray, minimum, maximum, average};
 
 
      int student;
@@ -34,7 +38,7 @@ int main(void){
      const int studentGrades[STUDENTS][EXAMS] =
      {{77, 68, 86, 73},
       {96, 87, 89, 78},
-      {70, 90, 86, 81}};
+      {50, 90, 86, 81}};
 
 
     int userInput;
@@ -56,7 +60,19 @@ int main(void){
 
 
 void minimum(const int grades[][EXAMS], int pupils, int tests){
-    puts("minimum");
+    int minGrade = INT_MAX;
+    int minStudent;
+    for(int i = 0; i < pupils; ++i){
+        for(int j = 0; j < tests; ++j){
+            if(grades[i][j] < minGrade){
+                minGrade = grades[i][j];
+                minStudent = i;
+            }
+        }
+    } // End for
+
+    printf("\nMinimum Grade: Student %d -> %d\n\n", minStudent, minGrade );
+
 }
 void maximum(const int grades[][EXAMS], int pupils, int tests){
     puts("maximum");
