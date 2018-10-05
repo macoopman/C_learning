@@ -29,14 +29,24 @@ int main(void){
      {minimum, maximum, average, printArray};
 
 
+     int student;
+
+     const int studentGrades[STUDENTS][EXAMS] =
+     {{77, 68, 86, 73},
+      {96, 87, 89, 78},
+      {70, 90, 86, 81}};
+
+
     int userInput;
     do{
         puts("1. Print the array of grades");
-        puts("2. Fine the minimum grade");
+        puts("2. Find the minimum grade");
         puts("3. Find the maximum grade");
         puts("4. Print the average for all students");
         puts("5. Exit Program");
         scanf("%d", &userInput);
+
+        (*processGrades[userInput - 1])(studentGrades, STUDENTS, EXAMS);
 
     } while(userInput >= 1 && userInput < 5);
 
