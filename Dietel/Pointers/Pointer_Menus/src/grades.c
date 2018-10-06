@@ -98,7 +98,7 @@ void average(const int grades[][EXAMS], int pupils, int tests){
         for(int j = 0; j < tests; ++j){
             total += grades[i][j];
         }
-        printf("\nStudent %d average: %.2f %%\n", i, (double)(total/tests));
+        printf("\nStudent %d average: %.2f%%\n", i, (double)total/tests);
         total = 0; // reset total for next student
 
     } // End for
@@ -106,5 +106,23 @@ void average(const int grades[][EXAMS], int pupils, int tests){
 
 }
 void printArray(const int grades[][EXAMS], int pupils, int tests){
-    puts("print");
+    int i;
+    int j;
+
+    // print header
+    printf("%24s", " ");
+    for(i = 0; i < tests; ++i){
+        printf("[%d]\t", i);
+    }
+    puts("");
+
+    for(i = 0; i < pupils; ++i){
+        printf("studentGrades[%d]\t", i );
+        for(j = 0; j < tests; ++j){
+            printf("%d\t", grades[i][j]);
+        }
+        puts("");
+    }
+    puts("");
+
 }
