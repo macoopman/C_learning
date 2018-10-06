@@ -93,7 +93,17 @@ void maximum(const int grades[][EXAMS], int pupils, int tests){
     printf("\nMaximum Grade: Student %d -> %d\n\n", maxStudent, maxGrade );
 }
 void average(const int grades[][EXAMS], int pupils, int tests){
-    puts("average");
+    int total = 0;
+    for(int i = 0; i < pupils; ++i){
+        for(int j = 0; j < tests; ++j){
+            total += grades[i][j];
+        }
+        printf("\nStudent %d average: %.2f %%\n", i, (double)(total/tests));
+        total = 0; // reset total for next student
+
+    } // End for
+    puts("");
+
 }
 void printArray(const int grades[][EXAMS], int pupils, int tests){
     puts("print");
