@@ -50,7 +50,11 @@ int main(void){
         puts("5. Exit Program");
         scanf("%d", &userInput);
 
-        (*processGrades[userInput - 1])(studentGrades, STUDENTS, EXAMS);
+        // provides check to only process correct values 1 to 4
+        if(userInput >= 1 && userInput < 5){
+            (*processGrades[userInput - 1])(studentGrades, STUDENTS, EXAMS);
+        }
+
 
     } while(userInput >= 1 && userInput < 5);
 
@@ -75,7 +79,18 @@ void minimum(const int grades[][EXAMS], int pupils, int tests){
 
 }
 void maximum(const int grades[][EXAMS], int pupils, int tests){
-    puts("maximum");
+    int maxGrade = INT_MIN;
+    int maxStudent;
+    for(int i = 0; i < pupils; ++i){
+        for(int j = 0; j < tests; ++j){
+            if(grades[i][j] > maxGrade){
+                maxGrade = grades[i][j];
+                maxStudent = i;
+            }
+        }
+    } // End for
+
+    printf("\nMaximum Grade: Student %d -> %d\n\n", maxStudent, maxGrade );
 }
 void average(const int grades[][EXAMS], int pupils, int tests){
     puts("average");
